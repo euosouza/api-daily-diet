@@ -1,11 +1,14 @@
 import fastify from "fastify";
+import { knex } from "./database";
+import { env } from "./env";
 
 const app = fastify();
 
-const PORT = 3000;
+const PORT = env.PORT;
 
-app.get("/", () => {
-  return "Bem-vindo à Daily Diet API";
+app.get("/", async () => {
+  const migrations = await knex("knex_migrations").select("*");
+  return { migrations };
 });
 
 app
