@@ -3,7 +3,7 @@
 .env.test
 
 # Banco de dados
-db.sqlite
+db/db.sqlite
 
 # Dependências
 node_modules
