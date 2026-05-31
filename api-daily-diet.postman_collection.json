@@ -1,0 +1,240 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "API Daily Diet",
+    "description": "Collection de endpoints da API Daily Diet — gerenciamento de refeições com controle de dieta.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "mealId",
+      "value": "",
+      "type": "string",
+      "description": "ID de uma refeição existente (preencha após criar uma refeição)"
+    }
+  ],
+  "item": [
+    {
+      "name": "Meals",
+      "description": "Endpoints relacionados ao gerenciamento de refeições",
+      "item": [
+        {
+          "name": "Criar refeição",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Almoço saudável\",\n  \"description\": \"Frango grelhado com arroz integral e salada\",\n  \"date_time\": \"2026-05-31T12:00:00.000Z\",\n  \"on_diet\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meals",
+              "host": ["{{baseUrl}}"],
+              "path": ["meals"]
+            },
+            "description": "Cria uma nova refeição. Um cookie de sessão (sessionId) é gerado automaticamente na primeira requisição e deve ser mantido para as demais."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "header": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Listar refeições",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals",
+              "host": ["{{baseUrl}}"],
+              "path": ["meals"]
+            },
+            "description": "Retorna todas as refeições da sessão atual. Requer cookie de sessão (sessionId)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meals\": [\n    {\n      \"id\": \"uuid-da-refeicao\",\n      \"session_id\": \"uuid-da-sessao\",\n      \"name\": \"Almoço saudável\",\n      \"description\": \"Frango grelhado com arroz integral e salada\",\n      \"date_time\": \"2026-05-31T12:00:00.000Z\",\n      \"on_diet\": 1\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Buscar refeição por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/{{mealId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["meals", "{{mealId}}"]
+            },
+            "description": "Retorna os dados de uma refeição específica pelo ID. Requer cookie de sessão (sessionId)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meal\": {\n    \"id\": \"uuid-da-refeicao\",\n    \"session_id\": \"uuid-da-sessao\",\n    \"name\": \"Almoço saudável\",\n    \"description\": \"Frango grelhado com arroz integral e salada\",\n    \"date_time\": \"2026-05-31T12:00:00.000Z\",\n    \"on_diet\": 1\n  }\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Refeição não encontrada\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Atualizar refeição",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Almoço atualizado\",\n  \"description\": \"Salmão grelhado com batata-doce\",\n  \"date_time\": \"2026-05-31T12:30:00.000Z\",\n  \"on_diet\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meals/{{mealId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["meals", "{{mealId}}"]
+            },
+            "description": "Atualiza todos os dados de uma refeição existente pelo ID. Requer cookie de sessão (sessionId)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [],
+              "body": ""
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Refeição não encontrada\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Deletar refeição",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/{{mealId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["meals", "{{mealId}}"]
+            },
+            "description": "Remove uma refeição pelo ID."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [],
+              "body": ""
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Refeição não encontrada\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Resumo da dieta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["meals", "summary"]
+            },
+            "description": "Retorna um resumo estatístico da dieta do usuário: total de refeições, refeições dentro e fora da dieta, e a melhor sequência consecutiva dentro da dieta. Requer cookie de sessão (sessionId)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"summary\": {\n    \"totalMeals\": 10,\n    \"totalOnDiet\": 7,\n    \"totalNotOnDiet\": 3,\n    \"bestSequence\": 5\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
